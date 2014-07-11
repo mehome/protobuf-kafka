@@ -1,0 +1,6 @@
+message AMessage
+{
+    required string hostname=1; 
+    required int32 offset=2;
+    required int32 length=3;
+}
