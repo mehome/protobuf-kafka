@@ -29,7 +29,7 @@ void process_message(rd_kafka_message_t *rkmessage){
     AMessage *msg;
     msg = amessage__unpack(NULL, rkmessage->len, rkmessage->payload);
     if(msg)
-        printf("hostname = %s", msg->hostname);
+        fprintf(stderr, "hostname = %s", msg->hostname);
 }
 void do_consume(rd_kafka_conf_t *conf, rd_kafka_topic_conf_t *topic_conf, char *brokers, char *topic, int partition){
     rd_kafka_topic_t *rkt;
@@ -109,11 +109,14 @@ int main(int argc, char **argv){
     char *topic = "proto";
     char *buf;
     AMessage msg = AMESSAGE__INIT;
-    while ((opt = getopt(argc, argv, "PCh:o:l:")) != -1) {
+    while ((opt = getopt(argc, argv, "PCb:h:o:l:")) != -1) {
         switch (opt) {
             case 'P':
             case 'C':
                 mode = opt;
+                break;
+            case 'b':
+                brokers = optarg;
                 break;
             case 'h':
                 msg.hostname = optarg;
